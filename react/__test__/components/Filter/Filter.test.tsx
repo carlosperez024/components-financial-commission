@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Filter from './Filter'
+import Filter from '../../../components/Filter/index'
 import { useRuntime } from 'vtex.render-runtime'
 
 jest.mock('vtex.render-runtime', () => ({

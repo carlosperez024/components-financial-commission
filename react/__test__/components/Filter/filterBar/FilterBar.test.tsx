@@ -1,6 +1,6 @@
 // FilterBarComponent.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
-import FilterBarComponent from './FilterBarComponent';
+import FilterBarComponent from '../../../../components/Filter/filterBar/index';
 import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('vtex.styleguide', () => ({

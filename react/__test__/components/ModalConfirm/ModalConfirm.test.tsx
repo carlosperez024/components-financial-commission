@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
-import ModalConfirm from "./ModalConfirm";
+import ModalConfirm from "../../../components/ModalConfirm/index";
 
 const mockInvoiceMutation = jest.fn();
 

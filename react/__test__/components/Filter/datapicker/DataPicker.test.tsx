@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import DatePickerComponent from './DatePickerComponent';
+import DatePickerComponent from '../../../../components/Filter/datePicker/index';
 import { IntlProvider } from 'react-intl';
 import { useRuntime } from 'vtex.render-runtime';
 
