@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { IntlProvider } from 'react-intl'
 
-import SellerInvoices from './SellerInvoices'
+import SellerInvoices from '../../../components/SellerInvoices/index'
 import { invoicesQueryMock } from '../../../__mocks__/graphqlMocks'
 
 const mockSetDataTableInvoice = jest.fn()

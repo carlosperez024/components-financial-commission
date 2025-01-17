@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { IntlProvider } from 'react-intl'
-import EmptyTable from './EmptyTable'
+import EmptyTable from '../../../components/EmptyTable/index'
 
 const messages = {
   'admin/table.empty-state': 'No data available',

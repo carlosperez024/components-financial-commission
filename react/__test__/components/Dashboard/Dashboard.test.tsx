@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import TotalizerComponent from './TotalizerComponent'
+import TotalizerComponent from '../../../components/Dashboard/Totalizer/index'
 import { Totalizer } from 'vtex.styleguide'
 
 type StatsTotalizer = {

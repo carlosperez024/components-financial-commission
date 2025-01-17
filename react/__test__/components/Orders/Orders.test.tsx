@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing'
-import Orders from './Orders'
+import Orders from '../../../components/Orders/index'
 import { ordersQueryMock, dataOrdersMock } from './__mocks__/graphqlMocks'
 
 describe('Orders Component', () => {
