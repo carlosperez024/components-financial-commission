@@ -1,7 +1,7 @@
 module.exports = {
   displayName: 'react',
   testEnvironment: 'jest-environment-jsdom',
-  testMatch: ['**/react/__tests__/**/**/*.[jt]s?(x)'],
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   setupFiles: ['<rootDir>/jest.setEnvVars.js'],
   modulePaths: ['<rootDir>/react/'],
   transform: {
@@ -12,5 +12,6 @@ module.exports = {
     '^react-intl$': '<rootDir>/react/__mocks__/react-intl/index.tsx',
     '^vtex.render-runtime$':
       '<rootDir>/react/__mocks__/vtex/render-runtime.tsx',
+    '^@vtex/test-tools/(.*)$': '<rootDir>/node_modules/@vtex/test-tools/$1',
   },
 }
