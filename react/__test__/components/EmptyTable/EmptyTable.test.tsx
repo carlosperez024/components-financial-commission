@@ -1,7 +1,8 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@vtex/test-tools/react'
 import '@testing-library/jest-dom'
 import { IntlProvider } from 'react-intl'
+
 import EmptyTable from '../../../components/EmptyTable/index'
 
 const messages = {

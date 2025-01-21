@@ -1,7 +1,9 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-import TotalizerComponent from '../../../components/Dashboard/Totalizer/index'
+import { render, screen } from '@vtex/test-tools/react'
 import { Totalizer } from 'vtex.styleguide'
+import '@testing-library/jest-dom'
+
+import TotalizerComponent from '../../../components/Dashboard/Totalizer/index'
 
 type StatsTotalizer = {
   label: string
@@ -10,17 +12,17 @@ type StatsTotalizer = {
 
 jest.mock('vtex.styleguide', () => ({
   ...jest.requireActual('vtex.styleguide'),
-  Totalizer: jest.fn(() => <div data-testid="totalizer-mock"></div>),
+  Totalizer: jest.fn(() => <div data-testid="totalizer-mock" />),
 }))
 
 describe('TotalizerComponent', () => {
-  test('It shows the spinner while is loading', () => {
-    render(<TotalizerComponent item={[]} loading={true} />)
+  it('shows the spinner while is loading', () => {
+    render(<TotalizerComponent item={[]} loading />)
 
     expect(screen.getByRole('alert')).toBeInTheDocument()
   })
 
-  test('It renders totalizer component when this is not loading', () => {
+  it('renders totalizer component when this is not loading', () => {
     const items: StatsTotalizer[] = [{ label: 'Total', value: 1000 }]
 
     render(<TotalizerComponent item={items} loading={false} />)
@@ -28,7 +30,7 @@ describe('TotalizerComponent', () => {
     expect(screen.getByTestId('totalizer-mock')).toBeInTheDocument()
   })
 
-  test('Does not shows the spinner when is not loading', () => {
+  it('Does not shows the spinner when is not loading', () => {
     render(<TotalizerComponent item={[]} loading={false} />)
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
