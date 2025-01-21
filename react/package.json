@@ -1,5 +1,5 @@
 {
-  "name": "components-financial-commission",
+  "name": "components-financial-commission-react",
   "version": "0.0.0",
   "scripts": {
     "test": "vtex-test-tools test"

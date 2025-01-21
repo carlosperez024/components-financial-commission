@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen } from '@vtex/test-tools/react'
 import { Totalizer } from 'vtex.styleguide'
 import '@testing-library/jest-dom'
+import '@types/jest'
 
 import TotalizerComponent from '../../../components/Dashboard/Totalizer/index'
 

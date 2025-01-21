@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "lib": [
       "es5",
       "es6",
@@ -29,8 +29,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "es2017",
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "react", "@testing-library/jest-dom"],
     "typeRoots": ["node_modules/@types"]
-  },
-  "include": ["global.ts", "./**/*"]
+  }
 }

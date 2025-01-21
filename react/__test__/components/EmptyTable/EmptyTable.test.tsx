@@ -1,6 +1,7 @@
 import React from 'react'
-import { render, screen } from '@vtex/test-tools/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import '@types/jest'
 import { IntlProvider } from 'react-intl'
 
 import EmptyTable from '../../../components/EmptyTable/index'
