@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "lib": [
       "es5",
       "es6",
@@ -30,6 +30,24 @@
     "strictPropertyInitialization": true,
     "target": "es2017",
     "types": ["node", "jest", "react", "@testing-library/jest-dom"],
-    "typeRoots": ["node_modules/@types"]
-  }
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "*",
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "./react/**/*",
+    "./__test__/**/*",
+    "./__mocks__/**/*",
+    "./jest.setup.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
