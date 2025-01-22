@@ -1,10 +1,18 @@
-// FilterBarComponent.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import FilterBarComponent from '../../../../components/Filter/filterBar/index';
-import '@testing-library/jest-dom/extend-expect';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/react-in-jsx-scope */
+import { render, screen, fireEvent } from '@vtex/test-tools/react'
+
+import FilterBarComponent from '../../../../components/Filter/filterBar/index'
+import '@testing-library/jest-dom/extend-expect'
 
 jest.mock('vtex.styleguide', () => ({
-  FilterBar: ({ alwaysVisibleFilters, statements, onChangeStatements, clearAllFiltersButtonLabel, options }: any) => (
+  FilterBar: ({
+    alwaysVisibleFilters,
+    statements,
+    onChangeStatements,
+    clearAllFiltersButtonLabel,
+    options,
+  }: any) => (
     <div data-testid="filter-bar">
       <span>{clearAllFiltersButtonLabel}</span>
       <div>
@@ -21,30 +29,35 @@ jest.mock('vtex.styleguide', () => ({
       ))}
     </div>
   ),
-}));
+}))
 
 describe('FilterBarComponent', () => {
   it('should render the FilterBar with the correct elements', () => {
-    render(<FilterBarComponent />);
+    render(<FilterBarComponent />)
 
-    const clearButton = screen.getByText('Clear Filters');
-    expect(clearButton).toBeInTheDocument();
+    const clearButton = screen.getByText('Clear Filters')
 
-    const totalOrdersFilter = screen.getByTestId('filter-totalOrders');
-    expect(totalOrdersFilter).toBeInTheDocument();
+    expect(clearButton).toBeInTheDocument()
 
-    const verbs = ['is', 'is not', 'contains'];
-    verbs.forEach(verb => {
-      const verbElement = screen.getByTestId(`verb-${verb}`);
-      expect(verbElement).toBeInTheDocument();
-      expect(verbElement).toHaveTextContent(verb);
-    });
-  });
+    const totalOrdersFilter = screen.getByTestId('filter-totalOrders')
+
+    expect(totalOrdersFilter).toBeInTheDocument()
+
+    const verbs = ['is', 'is not', 'contains']
+
+    verbs.forEach((verb) => {
+      const verbElement = screen.getByTestId(`verb-${verb}`)
+
+      expect(verbElement).toBeInTheDocument()
+      expect(verbElement).toHaveTextContent(verb)
+    })
+  })
 
   it('should render the correct number of verbs for totalOrders', () => {
-    render(<FilterBarComponent />);
+    render(<FilterBarComponent />)
 
-    const verbs = screen.getAllByTestId(/verb-/);
-    expect(verbs).toHaveLength(3);
-  });
-});
+    const verbs = screen.getAllByTestId(/verb-/)
+
+    expect(verbs).toHaveLength(3)
+  })
+})

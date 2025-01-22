@@ -1,19 +1,20 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@vtex/test-tools/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { IntlProvider } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
+
 import Settings from '../settings'
 
-// Mock the runtime hook
 jest.mock('vtex.render-runtime', () => ({
   useRuntime: jest.fn(),
 }))
 
-// Mock child components
 jest.mock('../components/Table', () => ({
   __esModule: true,
-  default: ({ items }: any) => <div data-testid="table-component">{items.length} items</div>,
+  default: ({ items }: any) => (
+    <div data-testid="table-component">{items.length} items</div>
+  ),
 }))
 
 jest.mock('../components/Table/pagination', () => ({
@@ -60,7 +61,7 @@ const mockSettingsData = {
 
 describe('Settings Component', () => {
   beforeEach(() => {
-    (useRuntime as jest.Mock).mockReturnValue(mockRuntime)
+    ;(useRuntime as jest.Mock).mockReturnValue(mockRuntime)
   })
 
   afterEach(() => {
@@ -150,14 +151,18 @@ describe('Settings Component', () => {
 
     await waitFor(() => {
       const select = screen.getByRole('combobox')
+
       fireEvent.change(select, { target: { value: 'Monthly' } })
     })
 
     const saveButton = screen.getByText('admin/save-settings')
+
     fireEvent.click(saveButton)
 
     await waitFor(() => {
-      expect(screen.getByText('Data was updated successfully')).toBeInTheDocument()
+      expect(
+        screen.getByText('Data was updated successfully')
+      ).toBeInTheDocument()
     })
   })
 
@@ -184,6 +189,7 @@ describe('Settings Component', () => {
 
     await waitFor(() => {
       const toggle = screen.getByRole('switch')
+
       fireEvent.click(toggle)
     })
 
@@ -200,6 +206,7 @@ describe('Settings Component', () => {
     )
 
     const nextButton = screen.getByTestId('pagination-component')
+
     fireEvent.click(nextButton)
 
     await waitFor(() => {
@@ -223,9 +230,7 @@ describe('Settings Component', () => {
         </button>
       )
 
-      render(
-        <Actions data={{ id: '1', name: 'Test Seller' }} />
-      )
+      render(<Actions data={{ id: '1', name: 'Test Seller' }} />)
 
       fireEvent.click(screen.getByText('Action'))
 
@@ -252,16 +257,18 @@ describe('Settings Component', () => {
         </MockedProvider>
       )
 
-      // Mock current date
       const mockDate = new Date('2024-03-15')
+
       jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any)
 
       await waitFor(() => {
         const select = screen.getByRole('combobox')
+
         fireEvent.change(select, { target: { value: 'Monthly' } })
       })
 
       const saveButton = screen.getByText('admin/save-settings')
+
       fireEvent.click(saveButton)
 
       expect(createSettingsMock).toHaveBeenCalledWith({

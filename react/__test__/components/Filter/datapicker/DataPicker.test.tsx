@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@vtex/test-tools/react'
 import { IntlProvider } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
 

@@ -1,9 +1,24 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@vtex/test-tools/react'
 import '@testing-library/jest-dom'
 import { IntlProvider } from 'react-intl'
 
-import EmptyTable from '../../../components/EmptyTable/index'
+import EmptyTable from '../components/EmptyTable/index'
+
+jest.mock('vtex.styleguide', () => ({
+  EmptyState: ({
+    title,
+    children,
+  }: {
+    title: string
+    children: React.ReactNode
+  }) => (
+    <div>
+      <h1>{title}</h1>
+      {children}
+    </div>
+  ),
+}))
 
 const messages = {
   'admin/table.empty-state': 'No data available',

@@ -1,29 +1,19 @@
 import React from 'react'
-// import { render, screen } from '@vtex/test-tools/react'
-import { render, screen } from '@testing-library/react'
-import { Totalizer } from 'vtex.styleguide'
+import { render, screen } from '@vtex/test-tools/react'
+// import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import TotalizerComponent from '../../../components/Dashboard/Totalizer/index'
+import TotalizerComponent from '../components/Dashboard/Totalizer/index'
 
 type StatsTotalizer = {
   label: string
   value: number
 }
 
-jest.mock('vtex.styleguide', () => {
-  const actual = jest.requireActual('vtex.styleguide')
-
-  console.log(Totalizer)
-  if (typeof actual !== 'object' || actual === null) {
-    throw new Error('vtex.styleguide does not export an object')
-  }
-
-  return {
-    ...actual,
-    Totalizer: jest.fn(() => <div data-testid="totalizer-mock" />),
-  }
-})
+jest.mock('vtex.styleguide', () => ({
+  Spinner: jest.fn(() => <div role="alert" />),
+  Totalizer: jest.fn(() => <div data-testid="totalizer-mock" />),
+}))
 
 describe('TotalizerComponent', () => {
   it('shows the spinner while is loading', () => {

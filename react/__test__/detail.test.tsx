@@ -1,5 +1,6 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@vtex/test-tools/react'
+
 import '@testing-library/jest-dom'
 import CommissionReportDetail from '../detail'
 
@@ -20,7 +21,7 @@ const mockProps = {
 }
 
 describe('CommissionReportDetail Component', () => {
-  test('renders the component with default values', () => {
+  it('renders the component with default values', () => {
     render(<CommissionReportDetail {...mockProps} />)
 
     expect(
@@ -32,12 +33,13 @@ describe('CommissionReportDetail Component', () => {
     ).toBeInTheDocument()
   })
 
-  test('allows switching tabs', () => {
+  it('allows switching tabs', () => {
     render(<CommissionReportDetail {...mockProps} />)
 
     const commissionTab = screen.getByText(
       /admin\/table\.title-tab-commission/i
     )
+
     const invoicesTab = screen.getByText(/admin\/table\.title-tab-invoices/i)
 
     expect(commissionTab).toBeInTheDocument()
@@ -47,21 +49,23 @@ describe('CommissionReportDetail Component', () => {
     expect(invoicesTab).toHaveAttribute('aria-selected', 'true')
   })
 
-  test('opens and closes modal', () => {
+  it('opens and closes modal', () => {
     render(<CommissionReportDetail {...mockProps} />)
 
     const openModalButton = screen.getByRole('button', { name: /open modal/i })
+
     fireEvent.click(openModalButton)
 
     expect(screen.getByText(/item id:/i)).toBeInTheDocument()
 
     const closeButton = screen.getByRole('button', { name: /close/i })
+
     fireEvent.click(closeButton)
 
     expect(screen.queryByText(/item id:/i)).not.toBeInTheDocument()
   })
 
-  test('updates the filter on date change', () => {
+  it('updates the filter on date change', () => {
     render(<CommissionReportDetail {...mockProps} />)
 
     const dateInputStart = screen.getByLabelText(/start date/i)

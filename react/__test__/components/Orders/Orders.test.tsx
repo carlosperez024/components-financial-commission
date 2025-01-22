@@ -1,8 +1,76 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@vtex/test-tools/react'
 import { MockedProvider } from '@apollo/client/testing'
+import type { DocumentNode } from 'graphql'
+import { gql } from 'graphql'
+
 import Orders from '../../../components/Orders/index'
-import { ordersQueryMock, dataOrdersMock } from './__mocks__/graphqlMocks'
+
+const ordersQueryMock: DocumentNode = gql`
+  query OrdersQuery($searchOrdersParams: SearchOrdersParams!) {
+    orders(params: $searchOrdersParams) {
+      data {
+        orderId
+        sellerOrderId
+        creationDate
+        totalOrderValue
+        totalComission
+        rate
+        status
+      }
+      paging {
+        total
+      }
+    }
+  }
+`
+
+const dataOrdersMock = [
+  {
+    request: {
+      query: ordersQueryMock,
+      variables: {
+        searchOrdersParams: {
+          dateStart: '2023-01-01',
+          dateEnd: '2023-01-31',
+          sellerName: 'Test Seller',
+          page: 1,
+          perpage: 20,
+          status: 'invoiced',
+        },
+      },
+    },
+    result: {
+      data: {
+        orders: {
+          data: [
+            {
+              orderId: 'order-1',
+              sellerOrderId: 'seller-order-1',
+              creationDate: '2023-01-01T12:00:00Z',
+              totalOrderValue: 100,
+              totalComission: 10,
+              rate: 5,
+              status: 'invoiced',
+            },
+            {
+              orderId: 'order-2',
+              sellerOrderId: 'seller-order-2',
+              creationDate: '2023-01-02T12:00:00Z',
+              totalOrderValue: 200,
+              totalComission: 20,
+              rate: 4,
+              status: 'pending',
+            },
+          ],
+          paging: {
+            total: 2,
+          },
+        },
+      },
+    },
+  },
+]
 
 describe('Orders Component', () => {
   const defaultProps = {
@@ -22,7 +90,7 @@ describe('Orders Component', () => {
     validRange: true,
   }
 
-  test('renders without crashing', () => {
+  it('renders without crashing', () => {
     render(
       <MockedProvider mocks={dataOrdersMock} addTypename={false}>
         <Orders {...defaultProps} />
@@ -33,7 +101,7 @@ describe('Orders Component', () => {
     expect(screen.getByText(/admin\/table-seller-order/i)).toBeInTheDocument()
   })
 
-  test('calls useLazyQuery and updates table with data', async () => {
+  it('calls useLazyQuery and updates table with data', async () => {
     render(
       <MockedProvider mocks={dataOrdersMock} addTypename={false}>
         <Orders {...defaultProps} />
@@ -45,7 +113,7 @@ describe('Orders Component', () => {
     })
   })
 
-  test('handles page navigation', async () => {
+  it('handles page navigation', async () => {
     render(
       <MockedProvider mocks={dataOrdersMock} addTypename={false}>
         <Orders {...defaultProps} />
@@ -53,6 +121,7 @@ describe('Orders Component', () => {
     )
 
     const nextButton = screen.getByRole('button', { name: /next/i })
+
     fireEvent.click(nextButton)
 
     await waitFor(() => {
@@ -60,7 +129,7 @@ describe('Orders Component', () => {
     })
   })
 
-  test('opens modal on button click', async () => {
+  it('opens modal on button click', async () => {
     render(
       <MockedProvider mocks={dataOrdersMock} addTypename={false}>
         <Orders {...defaultProps} />
@@ -68,6 +137,7 @@ describe('Orders Component', () => {
     )
 
     const rateButton = screen.getByTestId('rate-button') // Usa un `data-testid` en el botón.
+
     fireEvent.click(rateButton)
 
     expect(defaultProps.setOpenModal).toHaveBeenCalledWith(true)

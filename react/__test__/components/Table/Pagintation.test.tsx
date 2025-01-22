@@ -1,46 +1,40 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@vtex/test-tools/react'
 import { IntlProvider } from 'react-intl'
 import { Pagination } from 'vtex.styleguide'
+
 import PaginationComponent from '../../../components/Table/pagination'
 
 // Mock vtex.styleguide Pagination component
 jest.mock('vtex.styleguide', () => ({
-  Pagination: jest.fn(({
-    onNextClick,
-    onPrevClick,
-    onRowsChange,
-    currentItemFrom,
-    currentItemTo,
-    totalItems,
-  }) => (
-    <div data-testid="mock-pagination">
-      <button
-        onClick={onPrevClick}
-        data-testid="prev-button"
-      >
-        Previous
-      </button>
-      <select
-        data-testid="rows-select"
-        onChange={onRowsChange}
-      >
-        <option value="20">20</option>
-        <option value="30">30</option>
-        <option value="40">40</option>
-        <option value="50">50</option>
-      </select>
-      <span data-testid="pagination-info">
-        {currentItemFrom}-{currentItemTo} of {totalItems}
-      </span>
-      <button
-        onClick={onNextClick}
-        data-testid="next-button"
-      >
-        Next
-      </button>
-    </div>
-  )),
+  Pagination: jest.fn(
+    ({
+      onNextClick,
+      onPrevClick,
+      onRowsChange,
+      currentItemFrom,
+      currentItemTo,
+      totalItems,
+    }) => (
+      <div data-testid="mock-pagination">
+        <button onClick={onPrevClick} data-testid="prev-button">
+          Previous
+        </button>
+        <select data-testid="rows-select" onChange={onRowsChange}>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+        <span data-testid="pagination-info">
+          {currentItemFrom}-{currentItemTo} of {totalItems}
+        </span>
+        <button onClick={onNextClick} data-testid="next-button">
+          Next
+        </button>
+      </div>
+    )
+  ),
 }))
 
 const messages = {
@@ -86,6 +80,7 @@ describe('PaginationComponent', () => {
     renderComponent()
 
     const nextButton = screen.getByTestId('next-button')
+
     fireEvent.click(nextButton)
 
     expect(defaultProps.onNextClick).toHaveBeenCalledTimes(1)
@@ -95,6 +90,7 @@ describe('PaginationComponent', () => {
     renderComponent()
 
     const prevButton = screen.getByTestId('prev-button')
+
     fireEvent.click(prevButton)
 
     expect(defaultProps.onPrevClick).toHaveBeenCalledTimes(1)
@@ -104,6 +100,7 @@ describe('PaginationComponent', () => {
     renderComponent()
 
     const rowsSelect = screen.getByTestId('rows-select')
+
     fireEvent.change(rowsSelect, { target: { value: '30' } })
 
     expect(defaultProps.changeRows).toHaveBeenCalledWith(30)
@@ -113,6 +110,7 @@ describe('PaginationComponent', () => {
     renderComponent()
 
     const paginationInfo = screen.getByTestId('pagination-info')
+
     expect(paginationInfo).toHaveTextContent('1-20 of 100')
   })
 
@@ -124,6 +122,7 @@ describe('PaginationComponent', () => {
     })
 
     const paginationInfo = screen.getByTestId('pagination-info')
+
     expect(paginationInfo).toHaveTextContent('1-30 of 100')
   })
 
@@ -135,6 +134,7 @@ describe('PaginationComponent', () => {
     })
 
     const paginationInfo = screen.getByTestId('pagination-info')
+
     expect(paginationInfo).toHaveTextContent('21-40 of 100')
   })
 

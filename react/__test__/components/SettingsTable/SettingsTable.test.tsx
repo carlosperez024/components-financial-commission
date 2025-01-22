@@ -1,6 +1,7 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@vtex/test-tools/react'
 import { IntlProvider } from 'react-intl'
+
 import SettingsTable from '../../../components/SettingsTable/index'
 
 const mockSchemaTable = [
@@ -44,14 +45,12 @@ const renderComponent = () => {
 
 describe('SettingsTable Component', () => {
   beforeEach(() => {
-    // Clear any previous renders
     jest.clearAllMocks()
   })
 
   it('renders without crashing', () => {
     renderComponent()
 
-    // Check if the settings button is rendered
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
@@ -59,10 +58,13 @@ describe('SettingsTable Component', () => {
     renderComponent()
 
     const settingsButton = screen.getByRole('button')
+
     fireEvent.click(settingsButton)
 
     // Check if modal is opened
-    expect(screen.getByText('Choose the columns to display')).toBeInTheDocument()
+    expect(
+      screen.getByText('Choose the columns to display')
+    ).toBeInTheDocument()
   })
 
   it('displays all column options in modal', () => {
@@ -70,6 +72,7 @@ describe('SettingsTable Component', () => {
 
     // Open modal
     const settingsButton = screen.getByRole('button')
+
     fireEvent.click(settingsButton)
 
     // Check if all column options are displayed
@@ -85,10 +88,12 @@ describe('SettingsTable Component', () => {
 
     // Open modal
     const settingsButton = screen.getByRole('button')
+
     fireEvent.click(settingsButton)
 
     // Find and click first toggle
     const firstToggle = screen.getByRole('switch', { name: 'Actions' })
+
     fireEvent.click(firstToggle)
 
     // Check if toggle is checked
@@ -110,14 +115,18 @@ describe('SettingsTable Component', () => {
 
     // Open modal
     const settingsButton = screen.getByRole('button')
+
     fireEvent.click(settingsButton)
 
     // Find and click close button
     const closeButton = screen.getByRole('button', { name: /close/i })
+
     fireEvent.click(closeButton)
 
     // Check if modal is closed
-    expect(screen.queryByText('Choose the columns to display')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('Choose the columns to display')
+    ).not.toBeInTheDocument()
   })
 
   it('maintains toggle state between modal opens', async () => {
@@ -125,14 +134,17 @@ describe('SettingsTable Component', () => {
 
     // Open modal
     const settingsButton = screen.getByRole('button')
+
     fireEvent.click(settingsButton)
 
     // Toggle a column
     const toggle = screen.getByRole('switch', { name: 'Actions' })
+
     fireEvent.click(toggle)
 
     // Close modal
     const closeButton = screen.getByRole('button', { name: /close/i })
+
     fireEvent.click(closeButton)
 
     // Reopen modal
@@ -141,6 +153,7 @@ describe('SettingsTable Component', () => {
     // Check if toggle state persisted
     await waitFor(() => {
       const toggleAfterReopen = screen.getByRole('switch', { name: 'Actions' })
+
       expect(toggleAfterReopen).toBeChecked()
     })
   })
@@ -150,11 +163,14 @@ describe('SettingsTable Component', () => {
 
     // Open modal
     const settingsButton = screen.getByRole('button')
+
     fireEvent.click(settingsButton)
 
     // Toggle multiple columns
     const actionsToggle = screen.getByRole('switch', { name: 'Actions' })
-    const commissionToggle = screen.getByRole('switch', { name: 'Total Commission' })
+    const commissionToggle = screen.getByRole('switch', {
+      name: 'Total Commission',
+    })
 
     fireEvent.click(actionsToggle)
     fireEvent.click(commissionToggle)

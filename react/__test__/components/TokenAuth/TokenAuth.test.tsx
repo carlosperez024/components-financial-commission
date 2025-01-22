@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@vtex/test-tools/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { IntlProvider } from 'react-intl'
 import { gql } from '@apollo/client'
+
 import TokenAuth from '../../../components/TokenAuth'
 
 // Mock mutations
@@ -93,6 +94,7 @@ describe('TokenAuth Component', () => {
     renderComponent()
 
     const tokenInput = screen.getByRole('textbox')
+
     expect(tokenInput).toHaveValue('existing-token-123')
   })
 
@@ -100,6 +102,7 @@ describe('TokenAuth Component', () => {
     renderComponent()
 
     const toggle = screen.getByRole('switch')
+
     fireEvent.click(toggle)
 
     await waitFor(() => {
@@ -112,10 +115,12 @@ describe('TokenAuth Component', () => {
     renderComponent()
 
     const toggle = screen.getByRole('switch')
+
     fireEvent.click(toggle)
 
     await waitFor(() => {
       const newTokenButton = screen.getByText('New Token')
+
       expect(newTokenButton).not.toBeDisabled()
     })
   })
@@ -125,6 +130,7 @@ describe('TokenAuth Component', () => {
 
     // First activate the toggle
     const toggle = screen.getByRole('switch')
+
     fireEvent.click(toggle)
 
     await waitFor(() => {
@@ -133,11 +139,13 @@ describe('TokenAuth Component', () => {
 
     // Click new token button
     const newTokenButton = screen.getByText('New Token')
+
     fireEvent.click(newTokenButton)
 
     // Wait for new token to be displayed
     await waitFor(() => {
       const tokenInput = screen.getByRole('textbox')
+
       expect(tokenInput).toHaveValue('new-token-456')
     })
   })
@@ -146,6 +154,7 @@ describe('TokenAuth Component', () => {
     renderComponent()
 
     const newTokenButton = screen.getByText('New Token')
+
     expect(newTokenButton).toBeDisabled()
   })
 
@@ -162,6 +171,7 @@ describe('TokenAuth Component', () => {
     renderComponent()
 
     const tokenInput = screen.getByRole('textbox')
+
     expect(tokenInput).toHaveAttribute('readonly')
   })
 
@@ -170,6 +180,7 @@ describe('TokenAuth Component', () => {
 
     // Activate toggle
     const toggle = screen.getByRole('switch')
+
     fireEvent.click(toggle)
 
     await waitFor(() => {
@@ -178,6 +189,7 @@ describe('TokenAuth Component', () => {
 
     // Click new token button
     const newTokenButton = screen.getByText('New Token')
+
     fireEvent.click(newTokenButton)
 
     // Check for loading state

@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@vtex/test-tools/react'
 import { MockedProvider } from '@apollo/client/testing'
 import { IntlProvider } from 'react-intl'
 import { useRuntime } from 'vtex.render-runtime'
+
 import SettingsDetail from '../settingsDetail'
 
 // Mock the runtime hook
@@ -40,7 +41,7 @@ const mockRuntime = {
 
 describe('SettingsDetail', () => {
   beforeEach(() => {
-    (useRuntime as jest.Mock).mockReturnValue(mockRuntime)
+    ;(useRuntime as jest.Mock).mockReturnValue(mockRuntime)
   })
 
   afterEach(() => {
@@ -70,9 +71,11 @@ describe('SettingsDetail', () => {
     )
 
     const select = screen.getByRole('combobox')
+
     fireEvent.change(select, { target: { value: 'Monthly' } })
 
     const saveButton = screen.getByText('SAVE')
+
     fireEvent.click(saveButton)
 
     // Wait for the mutation to be called
@@ -104,6 +107,7 @@ describe('SettingsDetail', () => {
     await waitFor(() => {
       // Update the component state with mock data
       const successAlert = screen.getByText('Data was updated successfully')
+
       expect(successAlert).toBeInTheDocument()
     })
   })
@@ -118,6 +122,7 @@ describe('SettingsDetail', () => {
     )
 
     const linkButton = screen.getByText('admin/navigation.settings')
+
     fireEvent.click(linkButton)
 
     expect(mockRuntime.navigate).toHaveBeenCalledWith({

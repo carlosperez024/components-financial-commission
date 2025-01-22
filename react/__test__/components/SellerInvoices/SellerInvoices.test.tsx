@@ -1,12 +1,56 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { MockedProvider } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/react-testing'
 import { IntlProvider } from 'react-intl'
+import { gql } from 'graphql-tag'
 
 import SellerInvoices from '../../../components/SellerInvoices/index'
-import { invoicesQueryMock } from '../../../__mocks__/graphqlMocks'
 
 const mockSetDataTableInvoice = jest.fn()
+
+const INVOICES_QUERY = gql`
+  query InvoicesBySeller($sellerInvoiceParams: SellerInvoiceParams!) {
+    invoicesBySeller(sellerInvoiceParams: $sellerInvoiceParams) {
+      data {
+        id
+        invoiceCreatedDate
+        status
+      }
+      pagination {
+        total
+      }
+    }
+  }
+`
+
+const invoicesQueryMock = {
+  request: {
+    query: INVOICES_QUERY,
+    variables: {
+      sellerInvoiceParams: {
+        sellerName: 'SellerTest',
+        dates: {
+          startDate: '2023-01-01',
+          endDate: '2023-01-31',
+        },
+        pagination: {
+          page: 1,
+          pageSize: 20,
+        },
+      },
+    },
+  },
+  result: {
+    data: {
+      invoicesBySeller: {
+        data: [
+          { id: '1', invoiceCreatedDate: '2023-01-01', status: 'Completed' },
+        ],
+        pagination: { total: 1 },
+      },
+    },
+  },
+}
 
 const defaultProps = {
   invoicesQuery: invoicesQueryMock,
@@ -56,6 +100,7 @@ describe('SellerInvoices Component', () => {
     )
 
     const nextButton = screen.getByText(/Next/i)
+
     fireEvent.click(nextButton)
 
     expect(mockSetDataTableInvoice).toHaveBeenCalled()

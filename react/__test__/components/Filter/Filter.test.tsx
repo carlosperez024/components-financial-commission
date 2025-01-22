@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@vtex/test-tools/react'
 import '@testing-library/jest-dom'
-import Filter from '../../../components/Filter/index'
 import { useRuntime } from 'vtex.render-runtime'
+
+import Filter from '../../../components/Filter/index'
 
 jest.mock('vtex.render-runtime', () => ({
   useRuntime: jest.fn(),
@@ -12,7 +13,7 @@ const mockSetQuery = jest.fn()
 
 describe('Filter Component', () => {
   beforeEach(() => {
-    (useRuntime as jest.Mock).mockReturnValue({
+    ;(useRuntime as jest.Mock).mockReturnValue({
       query: {},
       setQuery: mockSetQuery,
     })
@@ -57,6 +58,7 @@ describe('Filter Component', () => {
     )
 
     const filterButton = screen.getByRole('button', { name: /Filter/i })
+
     fireEvent.click(filterButton)
 
     expect(mockSetQuery).toHaveBeenCalled()
@@ -79,6 +81,7 @@ describe('Filter Component', () => {
     )
 
     const deleteButton = screen.getByRole('button', { name: /Delete/i })
+
     fireEvent.click(deleteButton)
 
     expect(mockSetSellerId).toHaveBeenCalledWith('')
@@ -101,6 +104,7 @@ describe('Filter Component', () => {
     )
 
     const datePickers = screen.getAllByRole('textbox')
+
     fireEvent.change(datePickers[0], { target: { value: '2023-01-01' } })
     fireEvent.change(datePickers[1], { target: { value: '2023-12-31' } })
 

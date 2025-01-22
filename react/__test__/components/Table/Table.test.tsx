@@ -1,10 +1,11 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen } from '@vtex/test-tools/react'
 import {
   EXPERIMENTAL_Table as Table,
   EXPERIMENTAL_useTableMeasures as useTableMeasures,
   EXPERIMENTAL_useTableSort as useTableSort,
 } from 'vtex.styleguide'
+
 import TableV2 from '../../../components/Table/index'
 
 // Mock vtex.styleguide components
@@ -63,12 +64,13 @@ describe('TableV2 Component', () => {
     render(<TableV2 {...defaultProps} />)
 
     const table = screen.getByTestId('mock-table')
+
     expect(table).toBeInTheDocument()
     expect(table).toHaveTextContent('2 items, 2 columns')
   })
 
   it('renders spinner when loading', () => {
-    render(<TableV2 {...defaultProps} loading={true} />)
+    render(<TableV2 {...defaultProps} loading />)
 
     expect(screen.getByTestId('mock-spinner')).toBeInTheDocument()
     expect(screen.queryByTestId('mock-table')).not.toBeInTheDocument()
@@ -86,6 +88,7 @@ describe('TableV2 Component', () => {
     render(<TableV2 {...defaultProps} hiddenColumn={['age']} />)
 
     const table = screen.getByTestId('mock-table')
+
     expect(table).toHaveTextContent('2 items, 1 columns')
   })
 
@@ -96,11 +99,11 @@ describe('TableV2 Component', () => {
       order: 'ASC',
     }
 
-      // Mock the useTableSort to return a sorted state
-      ; (useTableSort as jest.Mock).mockReturnValue({
-        sorted: mockSortedState,
-        sort: jest.fn(),
-      })
+    // Mock the useTableSort to return a sorted state
+    ;(useTableSort as jest.Mock).mockReturnValue({
+      sorted: mockSortedState,
+      sort: jest.fn(),
+    })
 
     render(<TableV2 {...defaultProps} sorting={mockSorting} />)
 
@@ -130,6 +133,7 @@ describe('TableV2 Component', () => {
     render(<TableV2 {...defaultProps} hiddenColumn={[]} />)
 
     const table = screen.getByTestId('mock-table')
+
     expect(table).toHaveTextContent('2 items, 2 columns')
   })
 })

@@ -1,10 +1,30 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { MockedProvider } from '@apollo/client/testing'
+import { render, screen, fireEvent, waitFor } from '@vtex/test-tools/react'
+import { MockedProvider } from '@apollo/react-testing'
 import { IntlProvider } from 'react-intl'
-import { gql } from '@apollo/client'
+import gql from 'graphql-tag'
 
-import SellerOrders from '../../../components/SellerOrders/index'
+import SellerOrders from '../components/SellerOrders/index'
+
+jest.mock('../components/ModalConfirm', () => ({
+  __esModule: true,
+  default: jest.fn(() => <div>Commission Report</div>),
+}))
+
+jest.mock('../components/Table', () => ({
+  __esModule: true,
+  default: jest.fn(() => (
+    <div>
+      <button>Next</button>
+      <div>table-seller-order</div>
+    </div>
+  )),
+}))
+
+jest.mock('../components/Table/pagination', () => ({
+  __esModule: true,
+  default: jest.fn(() => <div>Mocked PaginationComponent</div>),
+}))
 
 // Mock queries
 const ORDERS_QUERY = gql`
@@ -92,7 +112,11 @@ const mockSetOpenModal = jest.fn()
 const defaultProps = {
   ordersQuery: ORDERS_QUERY,
   settingsQuery: SETTINGS_QUERY,
-  invoiceMutation: gql`mutation { dummy }`,
+  invoiceMutation: gql`
+    mutation {
+      dummy
+    }
+  `,
   sellerName: 'SellerTest',
   startDate: '2023-01-01',
   finalDate: '2023-01-31',
@@ -150,6 +174,7 @@ describe('SellerOrders Component', () => {
     )
 
     const nextButton = screen.getByText(/Next/i)
+
     fireEvent.click(nextButton)
 
     // Check if pagination state updates
@@ -169,6 +194,7 @@ describe('SellerOrders Component', () => {
 
     await waitFor(() => {
       const viewButton = screen.getByRole('button')
+
       fireEvent.click(viewButton)
     })
 
